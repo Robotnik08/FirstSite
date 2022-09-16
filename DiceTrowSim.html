@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dice trow simulator</title>
+        <style>
+            div {
+                width: 1000px;
+                height: 100%;
+                background-color: red;
+                animation-name: Kleuren;
+                animation-iteration-count: 10000000;
+                animation-duration: 6s;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                font-size: large;
+            }
+            @keyframes Kleuren {
+                0% {background-color: red;}
+                25% {background-color: yellow;}
+                50% {background-color: blue;}
+                75% {background-color: green;}
+                100% {background-color: red;}
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h2>Dice trow simulator</h2>
+            <input id="Dice" type="text" placeholder="Enter amount of dice" onblur="getDie()"> || Enter amount of dice here</input>
+            <br>
+            <input id="Trows" type="text" placeholder="Enter amount of trows" onblur="getGameSize()"> || Enter amount of trows here</input>
+            <br>
+            <button onclick="Rando()">Press me for calculations</button>
+            <h1 id="Calculations"></h1>
+        </div>
+        
+        
+        <script>
+            let GameLength = NaN;
+            let DieAmount = NaN;
+            function getGameSize ()
+            {
+                GameLength = document.getElementById("Trows").value;
+            }
+            function getDie()
+            {
+                DieAmount = document.getElementById("Dice").value;
+            }
+            function Rando ()
+            {
+                if (!isNaN(GameLength) && !isNaN(DieAmount) && GameLength > 0 && DieAmount > 0)
+                {
+                    let AmountPer = new Array();
+                    for (let x = 0; x <= 6*DieAmount; x++)
+                    {
+                        AmountPer.push(0);
+                    }
+                    for (let x = 0; x < GameLength; x++)
+                    {
+                        let value = 0;
+                        for (let y = 0; y < DieAmount; y++)
+                        {
+                            value += Math.floor(Math.random() * 6) + 1;
+                        }
+                        AmountPer[value]++;
+                    }
+                    document.getElementById("Calculations").innerHTML = "Results:";
+                    for (let y = DieAmount; y <= 6*DieAmount; y++)
+                    {
+                        document.getElementById("Calculations").innerHTML += "<br>" + y + ": " + AmountPer[y] + " || " + Math.round(AmountPer[y]/GameLength*1000)/10 + "%";
+                    }
+                }
+                else
+                {
+                    document.getElementById("Calculations").innerHTML = "Error:<br>";
+                    if (isNaN(DieAmount))
+                    {
+                        document.getElementById("Calculations").innerHTML += "The die amount is not a number!<br>";
+                    }
+                    else if (DieAmount < 1)
+                    {
+                        document.getElementById("Calculations").innerHTML += "The amount of dice is below or at zero!<br>";
+                    }
+                    if (isNaN(GameLength))
+                    {
+                        document.getElementById("Calculations").innerHTML += "The trow amount is not a number!";
+                    }
+                    else if (GameLength < 1)
+                    {
+                        document.getElementById("Calculations").innerHTML += "The trow amount is below or at zero!";
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
